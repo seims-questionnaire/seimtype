@@ -8,189 +8,257 @@
 <title>教えて！みんなのライフハック</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
 <style>
-  /* 前回のセイムタイプ診断と同じネイビー基調（単一テーマ）。1カラムの投稿フォーム */
+  /* 見立て：お便りはがき。色は前回のセイムタイプ診断・放送動画と同じ紺×水色×金。紺の地に生成りのはがきを置く。左揃え1カラム */
   :root{
-    --navy:#0A1830;
-    --navy-2:#0F2448;
-    --line:rgba(120,190,210,.35);
-    --teal:#4ED6E6;
-    --gold:#F2C15A;
-    --ink:#F0F4FA;
-    --mute:#AAB8CC;
-    --field:rgba(255,255,255,.06);
-    --err:#FF9C8A;
+    --bg:#0A1830;  --bg-2:#0F2448;          /* 地：動画と同じ紺 */
+    --on-bg:#F0F4FA; --on-bg-soft:#AAB8CC;
+    --teal:#4ED6E6; --gold:#F2C15A;          /* 動画のアクセント */
+    --paper:#FBF8F1;                         /* はがき */
+    --ink:#13284A; --ink-soft:#5B6B82;       /* はがき上の文字：紺 */
+    --rule:#DCE3EA;
+    --teal-ink:#178E9E; --gold-ink:#A9791A;  /* 白地で読める濃さに落とした水色・金 */
+    --err:#C2412D;
+    --f-hand:"Klee One","Hiragino Mincho ProN",serif;
+    --f-body:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Hiragino Sans",system-ui,sans-serif;
     color-scheme:dark;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{background:var(--navy)}
+  html{background:var(--bg)}
   body{
-    font-family:"Noto Sans JP",system-ui,-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;
-    color:var(--ink);
-    background:
-      radial-gradient(70% 40% at 50% 26%, rgba(20,80,110,.45), transparent 70%),
-      linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 50%, var(--navy) 100%);
-    background-attachment:fixed;
-    -webkit-font-smoothing:antialiased;
-    line-height:1.6;min-height:100%;
-    padding-block:env(safe-area-inset-top) env(safe-area-inset-bottom);
-    padding-left:max(0px, env(safe-area-inset-left, 0px));
-    padding-right:max(0px, env(safe-area-inset-right, 0px));
+    background:linear-gradient(180deg,var(--bg) 0%,var(--bg-2) 55%,var(--bg) 100%);background-color:var(--bg);
+    color:var(--on-bg);
+    font-family:var(--f-body);font-weight:500;line-height:1.7;
+    -webkit-font-smoothing:antialiased;min-height:100%;
+    padding-block:0 32px;
+    padding-left:max(16px, env(safe-area-inset-left, 0px));
+    padding-right:max(16px, env(safe-area-inset-right, 0px));
   }
-  .wrap{width:100%;max-width:560px;margin:0 auto;padding:0 max(20px, env(safe-area-inset-left,0px)) 40px}
+  .wrap{max-width:520px;margin:0 auto}
+  h1,.lead,.topic p,.done h2,.done p,.help,.agree,.howto{word-break:auto-phrase}
 
-  .bar{
-    display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
-    padding:18px 0 14px;border-bottom:1.5px solid var(--line);
-    font-size:13px;color:var(--mute);letter-spacing:.02em;
+  .bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:14px 2px 10px;font-size:12px;color:var(--on-bg-soft);letter-spacing:.04em}
+  .bar .dot{width:8px;height:8px;border-radius:50%;background:var(--teal);flex:none}
+  .bar b{color:var(--on-bg);font-weight:700}
+
+  .slot{position:relative;display:block}
+  .slot svg,.slot img{display:block;width:100%;height:auto}
+  .slot .tmp{
+    position:absolute;right:8px;top:8px;font-size:10px;letter-spacing:.06em;
+    background:rgba(10,24,48,.72);color:#fff;border-radius:4px;padding:1px 6px;
   }
-  .bar strong{color:var(--ink);font-weight:500;font-size:14px}
+  .hero{border-radius:14px;overflow:hidden;background:#13305A}
 
-  .head{text-align:center;padding:26px 0 8px}
-  .kicker{color:var(--teal);font-size:14px;letter-spacing:.08em}
-  h1{
-    font-family:"Noto Serif JP",serif;font-weight:600;
-    font-size:clamp(24px,6.6vw,36px);letter-spacing:.04em;line-height:1.35;margin-top:8px;text-wrap:balance;
+  .title{padding:18px 2px 4px}
+  .title small{
+    display:inline-block;font-size:12px;font-weight:700;color:var(--gold);
+    border:1.5px solid var(--gold);border-radius:4px;padding:0 8px;letter-spacing:.08em;
+    transform:rotate(-2deg);
   }
-  .rule{width:64px;height:2px;background:var(--teal);margin:14px auto 0;border-radius:1px}
+  h1{font-family:var(--f-hand);font-weight:600;font-size:clamp(28px,8.4vw,38px);line-height:1.3;margin-top:8px;letter-spacing:.02em}
+  .lead{font-size:14px;color:var(--on-bg-soft);margin-top:8px}
 
-  /* お題カード：ここだけ金色で目立たせる */
-  .topic{
-    margin:22px 0 6px;padding:20px 18px 18px;border-radius:18px;text-align:center;
-    border:1.5px solid rgba(242,193,90,.6);
-    background:linear-gradient(180deg,rgba(242,193,90,.18),rgba(242,193,90,.05));
+  .card{
+    position:relative;margin-top:18px;background:var(--paper);color:var(--ink);color-scheme:light;
+    border-radius:6px;padding:22px 18px;
+    box-shadow:0 14px 34px -16px rgba(0,0,0,.6);
   }
-  .topic small{display:block;color:var(--gold);font-size:12px;letter-spacing:.12em}
-  .topic p{font-family:"Noto Serif JP",serif;font-weight:700;font-size:clamp(19px,5.2vw,23px);line-height:1.5;margin-top:6px;text-wrap:balance}
-  .topic span{display:block;color:var(--mute);font-size:13px;margin-top:8px;line-height:1.7}
-
-  form{display:grid;gap:22px;margin-top:22px}
-  .f{display:grid;gap:8px;min-width:0}
-  .f > label,.f > .lbl{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-  .req,.opt{font-size:11px;font-weight:500;border-radius:999px;padding:1px 8px;letter-spacing:.04em}
-  .req{background:var(--teal);color:#062030}
-  .opt{border:1px solid var(--line);color:var(--mute)}
-  .help{font-size:12px;color:var(--mute);line-height:1.7}
-
-  textarea,input[type=text],select{
-    width:100%;font:inherit;font-size:16px;color:var(--ink);
-    background:var(--field);border:1.5px solid rgba(120,190,210,.45);border-radius:14px;
-    padding:13px 14px;transition:border-color .18s,background .18s;
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .zip{display:flex;gap:4px;padding-top:4px;opacity:.8}
+  .zip i{width:13px;height:18px;border:1.2px solid var(--teal-ink);border-radius:2px}
+  .zip i:nth-child(3){margin-right:6px}
+  .stamp{
+    flex:none;width:84px;padding:8px 6px 7px;text-align:center;color:var(--gold-ink);
+    background:#FCF1D8;border:1.5px dashed rgba(242,193,90,.9);
+    transform:rotate(3deg);
   }
-  textarea{min-height:150px;resize:vertical;line-height:1.75}
-  textarea::placeholder,input::placeholder{color:rgba(170,184,204,.65)}
-  textarea:focus,input:focus,select:focus{outline:none;border-color:var(--teal);background:rgba(78,214,230,.07)}
-  select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--teal) 50%),linear-gradient(135deg,var(--teal) 50%,transparent 50%);
-    background-position:calc(100% - 20px) 55%,calc(100% - 14px) 55%;background-size:6px 6px;background-repeat:no-repeat;padding-right:40px}
-  select option{color:#0A1830}
-  .count{justify-self:end;font-size:12px;color:var(--mute);font-variant-numeric:tabular-nums}
+  .stamp b{display:block;font-family:var(--f-hand);font-size:20px;line-height:1.1}
+  .stamp span{display:block;font-size:10px;letter-spacing:.1em;margin-top:2px}
+
+  .topic{margin-top:14px}
+  .topic small{font-size:12px;color:var(--ink-soft);letter-spacing:.06em}
+  .topic p{font-family:var(--f-hand);font-weight:600;font-size:clamp(21px,6vw,25px);line-height:1.45;margin-top:2px;text-wrap:balance}
+  .topic-art{margin-top:10px;border-radius:10px;overflow:hidden;background:#E6F1F5}
+
+  form{display:grid;gap:20px;margin-top:20px}
+  .f{display:grid;gap:6px;min-width:0}
+  .lbl{font-size:14px;font-weight:700;display:flex;align-items:baseline;gap:8px}
+  .lbl span{font-size:11px;font-weight:500;color:var(--ink-soft)}
+  .lbl span.req{color:var(--teal-ink)}
+  .help{font-size:12px;color:var(--ink-soft)}
+
+  /* ライフハック欄：独立したセクション */
+  .hackbox{background:#EAF3F6;border-radius:12px;padding:16px 14px 12px;gap:8px}
+  .hackbox .lbl{font-size:16px}
+  .howto{list-style:none;display:grid;gap:2px;font-size:13px;color:var(--ink-soft)}
+  .howto li{display:flex;gap:6px}
+  .howto li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--teal-ink);margin-top:.62em}
+  textarea{
+    width:100%;font:inherit;font-size:16px;line-height:1.75;color:var(--ink);resize:vertical;
+    background:#fff;border:1.5px solid #C9D6E0;border-radius:10px;padding:12px 14px;min-height:150px;outline:none;
+    transition:border-color .15s,box-shadow .15s;
+  }
+  textarea:focus{border-color:var(--teal-ink);box-shadow:0 0 0 3px rgba(23,142,158,.15)}
+  textarea::placeholder,input[type=text]::placeholder{color:#A3AEBD}
+  .count{justify-self:end;font-size:12px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
   .count.over{color:var(--err)}
-  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  @media (max-width:380px){.row2{grid-template-columns:1fr}}
 
-  .agree{
-    display:grid;grid-template-columns:24px 1fr;gap:12px;align-items:start;cursor:pointer;
-    border:1px solid var(--line);border-radius:14px;padding:14px;font-size:13px;line-height:1.75;color:var(--mute)
+  input[type=text]{
+    width:100%;font:inherit;font-size:16px;color:var(--ink);background:#fff;
+    border:1.5px solid #C9D6E0;border-radius:10px;padding:10px 14px;outline:none;
+    transition:border-color .15s,box-shadow .15s;
   }
-  .agree b{color:var(--ink);font-weight:500}
-  .agree input{width:22px;height:22px;margin-top:1px;accent-color:var(--teal)}
+  input[type=text]:focus{border-color:var(--teal-ink);box-shadow:0 0 0 3px rgba(23,142,158,.15)}
+
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chips label{position:relative}
+  .chips input{position:absolute;opacity:0;inset:0;cursor:pointer}
+  .chips span{
+    display:inline-block;font-size:14px;padding:5px 13px;border-radius:999px;
+    border:1.5px solid var(--rule);color:var(--ink);background:#fff;
+    transition:background .15s,border-color .15s,color .15s;
+  }
+  .chips input:checked + span{background:var(--bg-2);border-color:var(--bg-2);color:#fff}
+  .chips input:focus-visible + span{outline:2px solid var(--teal-ink);outline-offset:2px}
+
+  .agree{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--ink-soft);cursor:pointer;line-height:1.7}
+  .agree input{width:20px;height:20px;margin-top:2px;flex:none;accent-color:var(--teal-ink)}
+  .agree b{color:var(--ink)}
 
   .err{display:none;font-size:13px;color:var(--err)}
   .err.show{display:block}
 
   .btn{
-    appearance:none;border:0;border-radius:999px;padding:16px 12px;width:100%;
-    font:inherit;font-size:16px;font-weight:700;letter-spacing:.06em;cursor:pointer;
-    background:var(--teal);color:#062030;
-    box-shadow:0 6px 0 rgba(0,0,0,.35),0 10px 24px rgba(0,0,0,.3);
-    transition:transform .12s,box-shadow .12s,opacity .18s;
+    appearance:none;border:0;border-radius:999px;width:100%;padding:15px 12px;cursor:pointer;
+    font:inherit;font-size:16px;font-weight:700;letter-spacing:.06em;
+    background:var(--bg-2);color:#fff;transition:transform .1s,opacity .15s;
   }
-  .btn:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.35)}
-  .btn:focus-visible,.agree input:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+  .btn:active{transform:scale(.98)}
+  .btn:focus-visible,.agree input:focus-visible{outline:2px solid var(--teal-ink);outline-offset:3px}
   .btn[disabled]{opacity:.6;cursor:default}
-  .foot{text-align:center;color:var(--mute);font-size:11px;line-height:1.8}
+  .foot{font-size:11px;color:var(--ink-soft);text-align:center}
 
-  .done{text-align:center;padding:56px 0 32px}
-  .done .mark{
-    width:92px;height:92px;border-radius:50%;border:1.5px solid var(--teal);
-    display:grid;place-items:center;margin:0 auto 22px;
-    animation:pop .5s cubic-bezier(.2,.9,.3,1.2) both;
-  }
-  .done h2{font-family:"Noto Serif JP",serif;font-weight:600;font-size:clamp(20px,5.6vw,26px);letter-spacing:.04em;text-wrap:balance}
-  .done p{color:var(--mute);margin:14px auto 0;font-size:14px;line-height:1.9;max-width:32ch}
-  .done .again{margin-top:26px;background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none;font-weight:500;font-size:14px;max-width:260px}
-  @keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+  .done{text-align:center;padding:40px 4px 16px}
+  .postmark{width:120px;height:120px;margin:0 auto 18px;color:var(--teal);transform:rotate(-6deg);animation:stampin .45s cubic-bezier(.2,.9,.3,1.3) both}
+  .done h2{font-family:var(--f-hand);font-weight:600;font-size:clamp(24px,7vw,30px);line-height:1.35}
+  .done p{color:var(--on-bg-soft);font-size:14px;margin:12px auto 0;max-width:30ch}
+  .done .again{margin-top:24px;background:transparent;color:var(--on-bg);border:1.5px solid rgba(120,190,210,.45);font-size:14px;font-weight:500;max-width:260px}
+  @keyframes stampin{from{transform:scale(1.4) rotate(-12deg);opacity:0}to{transform:scale(1) rotate(-6deg);opacity:1}}
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <header class="bar">
-    <strong>FUJI Wellness Channel</strong>
-    <span>店内アナウンスにて放送中</span>
-  </header>
+  <header class="bar"><i class="dot"></i><b>FUJI Wellness Channel</b>店内放送で紹介します</header>
 
   <main id="post">
-    <section class="head">
-      <div class="kicker">新コーナー</div>
+    <!-- 見出し画像 -->
+    <figure class="slot hero" aria-hidden="true">
+      <svg viewBox="0 0 520 150" xmlns="http://www.w3.org/2000/svg">
+        <rect width="520" height="150" fill="#13305A"/>
+        <circle cx="430" cy="128" r="62" fill="#8A6A2E"/>
+        <circle cx="430" cy="128" r="40" fill="#F2C15A"/>
+        <path d="M0 122 C80 108 150 132 240 118 S400 104 520 120 V150 H0Z" fill="#0F2448"/>
+        <g stroke="#0A1830" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="42" y="52" width="118" height="70" rx="12" fill="#FBF8F1"/>
+          <circle cx="78" cy="88" r="20" fill="#4ED6E6"/>
+          <circle cx="78" cy="88" r="7" fill="#FBF8F1"/>
+          <path d="M112 76h32M112 88h32M112 100h22" fill="none"/>
+          <path d="M60 52 L100 26" fill="none"/>
+          <circle cx="100" cy="26" r="3.5" fill="#0A1830"/>
+          <path d="M176 70 q10 16 0 32M190 62 q16 24 0 48M204 54 q22 32 0 64" fill="none" stroke="#4ED6E6"/>
+        </g>
+        <g fill="#F0F4FA" opacity=".8">
+          <circle cx="262" cy="36" r="3"/><circle cx="300" cy="62" r="2.2"/><circle cx="338" cy="30" r="2.6"/>
+          <circle cx="248" cy="78" r="2"/><circle cx="364" cy="70" r="2.2"/><circle cx="470" cy="34" r="2.6"/>
+        </g>
+      </svg>
+    </figure>
+
+    <section class="title">
+      <small>新コーナー</small>
       <h1>教えて！<br>みんなのライフハック</h1>
-      <div class="rule"></div>
+      <p class="lead">あなたの小さな工夫を、お便りで送ってください。<wbr>届いたアイデアは番組や店内サイネージで紹介します。</p>
     </section>
 
-    <section class="topic" aria-label="今回のお題">
-      <small>今回のお題</small>
-      <p id="topicText">寒い朝、布団から出るコツは？</p>
-      <span>あなたなりの小さな工夫を教えてください。<br>届いたアイデアは番組や店内サイネージで紹介します。</span>
-    </section>
-
-    <form id="form" novalidate>
-      <div class="f">
-        <label for="hack">あなたのライフハック <span class="req">必須</span></label>
-        <textarea id="hack" name="hack" maxlength="400" placeholder="例）起きる30分前に暖房のタイマーをセット。部屋があったかいだけで、するっと出られます。"></textarea>
-        <span class="count" id="count">0 / 200</span>
-        <span class="err" id="errHack">ライフハックを入力してください（200文字以内）。</span>
+    <section class="card" aria-label="お便り">
+      <div class="card-top" aria-hidden="true">
+        <div class="zip"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="stamp"><b>12月</b><span>今回のお題</span></div>
       </div>
 
-      <div class="f">
-        <label for="rname">ラジオネーム <span class="opt">任意</span></label>
-        <input type="text" id="rname" name="rname" maxlength="20" placeholder="例）朝が苦手なネコ" autocomplete="off">
-        <span class="help">放送で「〇〇さんから」とご紹介します。本名は入れないでください。</span>
+      <div class="topic">
+        <small>お題</small>
+        <p id="topicText">寒い朝、布団から出るコツは？</p>
+        <!-- お題イラスト：お題ごとに差し替え -->
+        <figure class="slot topic-art">
+          <img id="topicImg" src="topic-2026-12.webp" width="2000" height="667" alt="布団にくるまったまま、腕だけ伸ばして目覚まし時計を止めているイラスト">
+        </figure>
       </div>
 
-      <div class="f">
-        <span class="lbl">あなたについて <span class="opt">任意</span></span>
-        <div class="row2">
-          <select id="age" name="age" aria-label="年代">
-            <option value="">年代</option>
-            <option>10代</option><option>20代</option><option>30代</option>
-            <option>40代</option><option>50代</option><option>60代以上</option>
-          </select>
-          <select id="gender" name="gender" aria-label="性別">
-            <option value="">性別</option>
-            <option>女性</option><option>男性</option><option>回答しない</option>
-          </select>
+      <form id="form" novalidate>
+        <div class="f hackbox">
+          <label class="lbl" for="hack">あなたのライフハック <span class="req">必須</span></label>
+          <ul class="howto">
+            <li>「どんな工夫か」「どうなるか」を1〜3行で</li>
+            <li>ちょっとしたことで大丈夫です</li>
+          </ul>
+          <textarea id="hack" name="hack" maxlength="400" placeholder="例）起きる30分前に暖房のタイマーをセット。部屋があったかいだけで、するっと出られます。"></textarea>
+          <span class="count" id="count">0 / 200</span>
+          <span class="err" id="errHack">ライフハックを書いてください（200文字まで）。</span>
         </div>
-      </div>
 
-      <label class="agree" for="ok">
-        <input type="checkbox" id="ok" name="ok">
-        <span><b>番組・店内サイネージで紹介されることに同意します</b><br>内容は一部編集してご紹介する場合があります。すべての投稿が紹介されるわけではありません。</span>
-      </label>
-      <span class="err" id="errOk">紹介への同意にチェックしてください。</span>
+        <div class="f">
+          <label class="lbl" for="rname">ラジオネーム <span>任意</span></label>
+          <input type="text" id="rname" name="rname" maxlength="20" placeholder="例）朝が苦手なネコ" autocomplete="off">
+          <span class="help">放送で「〇〇さんから」と読み上げます。本名は入れないでください。</span>
+        </div>
 
-      <button class="btn" type="submit" id="send">このアイデアを送る</button>
-      <p class="foot">お名前や連絡先は取得しません。</p>
-    </form>
+        <div class="f">
+          <span class="lbl" id="ageLbl">年代 <span>任意</span></span>
+          <div class="chips" role="radiogroup" aria-labelledby="ageLbl">
+            <label><input type="radio" name="age" id="age10" value="10代"><span>10代</span></label>
+            <label><input type="radio" name="age" id="age20" value="20代"><span>20代</span></label>
+            <label><input type="radio" name="age" id="age30" value="30代"><span>30代</span></label>
+            <label><input type="radio" name="age" id="age40" value="40代"><span>40代</span></label>
+            <label><input type="radio" name="age" id="age50" value="50代"><span>50代</span></label>
+            <label><input type="radio" name="age" id="age60" value="60代以上"><span>60代以上</span></label>
+          </div>
+        </div>
+
+        <div class="f">
+          <span class="lbl" id="genLbl">性別 <span>任意</span></span>
+          <div class="chips" role="radiogroup" aria-labelledby="genLbl">
+            <label><input type="radio" name="gender" id="genF" value="女性"><span>女性</span></label>
+            <label><input type="radio" name="gender" id="genM" value="男性"><span>男性</span></label>
+            <label><input type="radio" name="gender" id="genN" value="回答しない"><span>回答しない</span></label>
+          </div>
+        </div>
+
+        <label class="agree" for="ok">
+          <input type="checkbox" id="ok" name="ok">
+          <span><b>番組・店内サイネージで紹介されることに同意します</b><br>内容を一部編集して紹介する場合があります。すべてのお便りが紹介されるわけではありません。</span>
+        </label>
+        <span class="err" id="errOk">紹介への同意にチェックしてください。</span>
+
+        <button class="btn" type="submit" id="send">このお便りを送る</button>
+        <p class="foot">お名前や連絡先はいただきません。</p>
+      </form>
+    </section>
   </main>
 
   <section class="done" id="done" hidden aria-live="polite">
-    <div class="mark">
-      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#4ED6E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
-    </div>
-    <h2>アイデアありがとうございました！</h2>
-    <p>FUJI Wellness Channel や店内サイネージで紹介されるかも。放送をお楽しみに♪</p>
+    <svg class="postmark" viewBox="0 0 120 120" aria-hidden="true">
+      <g fill="none" stroke="currentColor" stroke-width="3">
+        <circle cx="60" cy="60" r="52"/><circle cx="60" cy="60" r="40" stroke-width="1.5"/>
+      </g>
+      <text x="60" y="56" text-anchor="middle" fill="currentColor" font-family="Klee One, serif" font-weight="600" font-size="20">受付</text>
+      <text x="60" y="78" text-anchor="middle" fill="currentColor" font-family="Zen Maru Gothic, sans-serif" font-weight="700" font-size="11" letter-spacing="1">LIFE HACK</text>
+    </svg>
+    <h2>お便り、届きました！</h2>
+    <p>FUJI Wellness Channel や店内サイネージで紹介されるかもしれません。放送をお楽しみに。</p>
     <button class="btn again" type="button" id="again">別のアイデアも送る</button>
   </section>
 
@@ -205,6 +273,7 @@
    FORM_ACTION : Googleフォームの /viewform を /formResponse に変えたURL
    ENTRY       : 各質問の entry.xxxxxx（事前入力リンクから取得）
    GA4_ID      : 計測ID（G-XXXXXXX）。空なら計測しない
+   LIVE_HOST   : このホストで開いたときだけ送信・計測する（プレビューで本番データを汚さないため）
    ========================================================= */
 const CONFIG = {
   TOPIC_ID   : "2026-12-futon",
@@ -219,8 +288,10 @@ const CONFIG = {
     gender: "entry.1723051774",
     source: "entry.956954832"
   },
-  GA4_ID: "G-CTPV3LLD0Q"
+  GA4_ID   : "G-CTPV3LLD0Q",
+  LIVE_HOST: "seims-questionnaire.github.io"
 };
+const LIVE = location.hostname === CONFIG.LIVE_HOST;
 
 /* ---------- 流入元 ---------- */
 const SOURCES = { signage: "サイネージ", app: "セイムスアプリ" };
@@ -242,7 +313,7 @@ const SRC = detectSource();
 function track(name, params){
   if (typeof gtag === "function") gtag("event", name, Object.assign({ entry_source: SRC, topic_id: CONFIG.TOPIC_ID }, params || {}));
 }
-if (CONFIG.GA4_ID){
+if (LIVE && CONFIG.GA4_ID){
   const s = document.createElement("script");
   s.async = true; s.src = "https://www.googletagmanager.com/gtag/js?id=" + CONFIG.GA4_ID;
   document.head.appendChild(s);
@@ -256,12 +327,20 @@ if (CONFIG.GA4_ID){
 /* ---------- フォーム ---------- */
 const $ = s => document.querySelector(s);
 const form = $("#form"), hack = $("#hack"), count = $("#count"), ok = $("#ok"), send = $("#send");
-$("#topicText").textContent = CONFIG.TOPIC_TEXT;
+const picked = name => (document.querySelector('input[name="' + name + '"]:checked') || {}).value || "";
+/* 「、」の後ろで改行できるようにする（Safariは auto-phrase 非対応のため） */
+(() => {
+  const el = $("#topicText"); el.textContent = "";
+  CONFIG.TOPIC_TEXT.split("、").forEach((part, i, a) => {
+    el.append(part + (i < a.length - 1 ? "、" : ""));
+    if (i < a.length - 1) el.append(document.createElement("wbr"));
+  });
+})();
 
 let started = false;
 const len = () => [...hack.value.trim()].length;
 hack.addEventListener("input", () => {
-  if (!started){ started = true; track("lh_start"); }
+  if (!started && hack.value){ started = true; track("lh_start"); }
   const n = len();
   count.textContent = n + " / " + CONFIG.MAX_CHARS;
   count.classList.toggle("over", n > CONFIG.MAX_CHARS);
@@ -283,11 +362,11 @@ form.addEventListener("submit", async e => {
   body.append(CONFIG.ENTRY.topic,  CONFIG.TOPIC_ID);
   body.append(CONFIG.ENTRY.hack,   hack.value.trim());
   body.append(CONFIG.ENTRY.rname,  $("#rname").value.trim());
-  body.append(CONFIG.ENTRY.age,    $("#age").value);
-  body.append(CONFIG.ENTRY.gender, $("#gender").value);
+  body.append(CONFIG.ENTRY.age,    picked("age"));
+  body.append(CONFIG.ENTRY.gender, picked("gender"));
   body.append(CONFIG.ENTRY.source, SRC);
 
-  if (!/XXXX/.test(CONFIG.FORM_ACTION)){
+  if (LIVE){
     try{
       /* no-cors のため成否は読めない（投げっぱなし） */
       await fetch(CONFIG.FORM_ACTION, { method: "POST", mode: "no-cors", body,
@@ -300,7 +379,7 @@ form.addEventListener("submit", async e => {
       document.body.append(sink, f); f.submit();
     }
   } else {
-    console.warn("[lifehack] FORM_ACTION 未設定（デモ動作）", SRC, Object.fromEntries(body));
+    console.info("[lifehack] プレビューのため送信しません", SRC, Object.fromEntries(body));
   }
   track("lh_submit", { chars: n });
 
@@ -312,7 +391,7 @@ form.addEventListener("submit", async e => {
 
 $("#again").addEventListener("click", () => {
   form.reset(); hack.dispatchEvent(new Event("input"));
-  send.disabled = false; send.textContent = "このアイデアを送る";
+  send.disabled = false; send.textContent = "このお便りを送る";
   $("#done").hidden = true; $("#post").hidden = false;
   window.scrollTo({ top: 0 });
 });
