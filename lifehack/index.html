@@ -288,6 +288,9 @@ const CONFIG = {
     gender: "entry.1723051774",
     source: "entry.956954832"
   },
+  /* PVログ用フォーム（開かれるたびに1件記録 → 回答シートの「PVログ」タブ） */
+  PV_FORM  : "https://docs.google.com/forms/d/e/1FAIpQLSeMeIBAgGLtid2GGEs3-OqSGZNa8ObSk7IXFoqwJfpDCSXOIQ/formResponse",
+  PV_ENTRY : { topic: "entry.278386675", source: "entry.956954832", visit: "entry.219942310" },
   GA4_ID   : "G-CTPV3LLD0Q",
   LIVE_HOST: "seims-questionnaire.github.io"
 };
@@ -322,6 +325,21 @@ if (LIVE && CONFIG.GA4_ID){
   gtag("js", new Date());
   gtag("config", CONFIG.GA4_ID, { entry_source: SRC, topic_id: CONFIG.TOPIC_ID });
   track("lh_view");
+}
+
+/* ---------- PVログ ---------- */
+if (LIVE){
+  let visit = "初回";
+  try{
+    if (sessionStorage.getItem("lh_seen")) visit = "再訪問";
+    sessionStorage.setItem("lh_seen", "1");
+  }catch(e){}
+  const pv = new URLSearchParams();
+  pv.append(CONFIG.PV_ENTRY.topic, CONFIG.TOPIC_ID);
+  pv.append(CONFIG.PV_ENTRY.source, SRC);
+  pv.append(CONFIG.PV_ENTRY.visit, visit);
+  fetch(CONFIG.PV_FORM, { method: "POST", mode: "no-cors", keepalive: true, body: pv,
+    headers: { "Content-Type": "application/x-www-form-urlencoded" } }).catch(() => {});
 }
 
 /* ---------- フォーム ---------- */
