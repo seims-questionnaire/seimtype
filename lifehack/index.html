@@ -65,9 +65,10 @@
     box-shadow:0 14px 34px -16px rgba(0,0,0,.6);
   }
   .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-  .zip{display:flex;gap:4px;padding-top:4px;opacity:.8}
+  .zip{display:flex;align-items:center;gap:4px;padding-top:4px;color:var(--teal-ink);opacity:.85;font-size:15px;line-height:1}
   .zip i{width:13px;height:18px;border:1.2px solid var(--teal-ink);border-radius:2px}
-  .zip i:nth-child(3){margin-right:6px}
+  .zip b{font-weight:700;margin-right:2px}
+  .zip span{margin:0 1px}
   .stamp{
     flex:none;width:84px;padding:8px 6px 7px;text-align:center;color:var(--gold-ink);
     background:#FCF1D8;border:1.5px dashed rgba(242,193,90,.9);
@@ -93,6 +94,10 @@
   .hackbox .lbl{font-size:16px}
   .howto{list-style:none;display:grid;gap:2px;font-size:13px;color:var(--ink-soft)}
   .howto li{display:flex;gap:6px}
+  .examples{display:grid;gap:6px;margin:2px 0 4px}
+  .examples small{font-size:12px;font-weight:700;color:var(--teal-ink);letter-spacing:.06em}
+  .examples p{font-size:13px;line-height:1.65;background:#fff;border-radius:8px;padding:8px 12px;color:var(--ink)}
+  .note{font-size:12px;color:var(--ink-soft);line-height:1.7;display:grid;gap:2px}
   .howto li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--teal-ink);margin-top:.62em}
   textarea{
     width:100%;font:inherit;font-size:16px;line-height:1.75;color:var(--ink);resize:vertical;
@@ -143,7 +148,6 @@
   .postmark{width:120px;height:120px;margin:0 auto 18px;color:var(--teal);transform:rotate(-6deg);animation:stampin .45s cubic-bezier(.2,.9,.3,1.3) both}
   .done h2{font-family:var(--f-hand);font-weight:600;font-size:clamp(24px,7vw,30px);line-height:1.35}
   .done p{color:var(--on-bg-soft);font-size:14px;margin:12px auto 0;max-width:30ch}
-  .done .again{margin-top:24px;background:transparent;color:var(--on-bg);border:1.5px solid rgba(120,190,210,.45);font-size:14px;font-weight:500;max-width:260px}
   @keyframes stampin{from{transform:scale(1.4) rotate(-12deg);opacity:0}to{transform:scale(1) rotate(-6deg);opacity:1}}
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -151,7 +155,7 @@
 <body>
 <div class="wrap">
 
-  <header class="bar"><i class="dot"></i><b>FUJI Wellness Channel</b>店内放送で紹介します</header>
+  <header class="bar"><i class="dot"></i><b>FUJI Wellness Channel</b>店内放送</header>
 
   <main id="post">
     <!-- 見出し画像 -->
@@ -180,13 +184,13 @@
     <section class="title">
       <small>新コーナー</small>
       <h1>教えて！<br>みんなのライフハック</h1>
-      <p class="lead">あなたの小さな工夫を、お便りで送ってください。<wbr>届いたアイデアは番組や店内サイネージで紹介します。</p>
+      <p class="lead">あなたの工夫を、アンケートで回答してください。<wbr>届いたアイデアはFUJI Wellness Channel内で紹介します。</p>
     </section>
 
-    <section class="card" aria-label="お便り">
+    <section class="card" aria-label="回答フォーム">
       <div class="card-top" aria-hidden="true">
-        <div class="zip"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        <div class="stamp"><b>12月</b><span>今回のお題</span></div>
+        <div class="zip"><b>〒</b><i></i><i></i><i></i><span>-</span><i></i><i></i><i></i><i></i></div>
+        <div class="stamp"><b id="stampMonth">12月</b><span>今回のお題</span></div>
       </div>
 
       <div class="topic">
@@ -201,49 +205,29 @@
       <form id="form" novalidate>
         <div class="f hackbox">
           <label class="lbl" for="hack">あなたのライフハック <span class="req">必須</span></label>
+          <div class="examples" id="examples">
+            <small>回答例</small>
+          </div>
           <ul class="howto">
             <li>「どんな工夫か」「どうなるか」を1〜3行で</li>
-            <li>ちょっとしたことで大丈夫です</li>
           </ul>
-          <textarea id="hack" name="hack" maxlength="400" placeholder="例）起きる30分前に暖房のタイマーをセット。部屋があったかいだけで、するっと出られます。"></textarea>
+          <textarea id="hack" name="hack" maxlength="400" placeholder="ここに回答を書いてください"></textarea>
           <span class="count" id="count">0 / 200</span>
-          <span class="err" id="errHack">ライフハックを書いてください（200文字まで）。</span>
-        </div>
-
-        <div class="f">
-          <label class="lbl" for="rname">ラジオネーム <span>任意</span></label>
-          <input type="text" id="rname" name="rname" maxlength="20" placeholder="例）朝が苦手なネコ" autocomplete="off">
-          <span class="help">放送で「〇〇さんから」と読み上げます。本名は入れないでください。</span>
-        </div>
-
-        <div class="f">
-          <span class="lbl" id="ageLbl">年代 <span>任意</span></span>
-          <div class="chips" role="radiogroup" aria-labelledby="ageLbl">
-            <label><input type="radio" name="age" id="age10" value="10代"><span>10代</span></label>
-            <label><input type="radio" name="age" id="age20" value="20代"><span>20代</span></label>
-            <label><input type="radio" name="age" id="age30" value="30代"><span>30代</span></label>
-            <label><input type="radio" name="age" id="age40" value="40代"><span>40代</span></label>
-            <label><input type="radio" name="age" id="age50" value="50代"><span>50代</span></label>
-            <label><input type="radio" name="age" id="age60" value="60代以上"><span>60代以上</span></label>
-          </div>
-        </div>
-
-        <div class="f">
-          <span class="lbl" id="genLbl">性別 <span>任意</span></span>
-          <div class="chips" role="radiogroup" aria-labelledby="genLbl">
-            <label><input type="radio" name="gender" id="genF" value="女性"><span>女性</span></label>
-            <label><input type="radio" name="gender" id="genM" value="男性"><span>男性</span></label>
-            <label><input type="radio" name="gender" id="genN" value="回答しない"><span>回答しない</span></label>
-          </div>
+          <span class="err" id="errHack">回答を書いてください（200文字まで）。</span>
         </div>
 
         <label class="agree" for="ok">
           <input type="checkbox" id="ok" name="ok">
-          <span><b>番組・店内サイネージで紹介されることに同意します</b><br>内容を一部編集して紹介する場合があります。すべてのお便りが紹介されるわけではありません。</span>
+          <span><b>回答がFUJI Wellness Channel内で紹介されることに同意します</b><br>内容を一部編集して紹介する場合があります。すべての回答が紹介されるわけではありません。</span>
         </label>
         <span class="err" id="errOk">紹介への同意にチェックしてください。</span>
 
-        <button class="btn" type="submit" id="send">このお便りを送る</button>
+        <div class="note">
+          <p>※回答はFUJI Wellness Channel内でのみ使用します。</p>
+          <p>※回答は1人1回までです。</p>
+        </div>
+
+        <button class="btn" type="submit" id="send">この内容で回答する</button>
         <p class="foot">お名前や連絡先はいただきません。</p>
       </form>
     </section>
@@ -255,11 +239,10 @@
         <circle cx="60" cy="60" r="52"/><circle cx="60" cy="60" r="40" stroke-width="1.5"/>
       </g>
       <text x="60" y="56" text-anchor="middle" fill="currentColor" font-family="Klee One, serif" font-weight="600" font-size="20">受付</text>
-      <text x="60" y="78" text-anchor="middle" fill="currentColor" font-family="Zen Maru Gothic, sans-serif" font-weight="700" font-size="11" letter-spacing="1">LIFE HACK</text>
+      <text x="60" y="78" text-anchor="middle" fill="currentColor" font-family="Zen Maru Gothic, sans-serif" font-weight="700" font-size="11" letter-spacing="1">THANK YOU</text>
     </svg>
-    <h2>お便り、届きました！</h2>
-    <p>FUJI Wellness Channel や店内サイネージで紹介されるかもしれません。放送をお楽しみに。</p>
-    <button class="btn again" type="button" id="again">別のアイデアも送る</button>
+    <h2>回答ありがとうございます。</h2>
+    <p>FUJI Wellness Channel内で紹介されるかもしれません。放送をお楽しみに。</p>
   </section>
 
 </div>
@@ -278,6 +261,12 @@
 const CONFIG = {
   TOPIC_ID   : "2026-12-futon",
   TOPIC_TEXT : "寒い朝、布団から出るコツは？",
+  STAMP      : "12月",
+  /* 回答欄の上に出す例（お題ごとに差し替え） */
+  EXAMPLES   : [
+    "起きる前に暖房をタイマーでON。枕元に置いた貼るカイロを貼ってから布団を出ます。",
+    "寝る前にホットアイマスクで目元を温めて早めに就寝。朝のだるさが減りました。"
+  ],
   MAX_CHARS  : 200,
   FORM_ACTION: "https://docs.google.com/forms/d/e/1FAIpQLSfOpVp25VolpKWy9acHwv3Vrtgkkd8hIU8hUXi3FHwoEwfLWA/formResponse",
   ENTRY: {
@@ -345,7 +334,13 @@ if (LIVE){
 /* ---------- フォーム ---------- */
 const $ = s => document.querySelector(s);
 const form = $("#form"), hack = $("#hack"), count = $("#count"), ok = $("#ok"), send = $("#send");
-const picked = name => (document.querySelector('input[name="' + name + '"]:checked') || {}).value || "";
+$("#stampMonth").textContent = CONFIG.STAMP;
+CONFIG.EXAMPLES.forEach(t => { const p = document.createElement("p"); p.textContent = t; $("#examples").append(p); });
+
+/* 1人1回まで：この端末で回答済みなら完了画面を出す（ログインがないため端末単位） */
+const DONE_KEY = "lh_answered_" + CONFIG.TOPIC_ID;
+const showDone = () => { $("#post").hidden = true; $("#done").hidden = false; window.scrollTo({ top: 0 }); };
+try{ if (localStorage.getItem(DONE_KEY)) showDone(); }catch(e){}
 /* 「、」の後ろで改行できるようにする（Safariは auto-phrase 非対応のため） */
 (() => {
   const el = $("#topicText"); el.textContent = "";
@@ -379,9 +374,6 @@ form.addEventListener("submit", async e => {
   const body = new URLSearchParams();
   body.append(CONFIG.ENTRY.topic,  CONFIG.TOPIC_ID);
   body.append(CONFIG.ENTRY.hack,   hack.value.trim());
-  body.append(CONFIG.ENTRY.rname,  $("#rname").value.trim());
-  body.append(CONFIG.ENTRY.age,    picked("age"));
-  body.append(CONFIG.ENTRY.gender, picked("gender"));
   body.append(CONFIG.ENTRY.source, SRC);
 
   if (LIVE){
@@ -401,18 +393,10 @@ form.addEventListener("submit", async e => {
   }
   track("lh_submit", { chars: n });
 
-  setTimeout(() => {
-    $("#post").hidden = true; $("#done").hidden = false;
-    window.scrollTo({ top: 0 });
-  }, 350);
+  try{ localStorage.setItem(DONE_KEY, "1"); }catch(e){}
+  setTimeout(showDone, 350);
 });
 
-$("#again").addEventListener("click", () => {
-  form.reset(); hack.dispatchEvent(new Event("input"));
-  send.disabled = false; send.textContent = "このお便りを送る";
-  $("#done").hidden = true; $("#post").hidden = false;
-  window.scrollTo({ top: 0 });
-});
 </script>
 </body>
 </html>
