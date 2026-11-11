@@ -183,7 +183,7 @@
 
     <section class="title">
       <small>新コーナー</small>
-      <h1>教えて！<br>みんなのライフハック</h1>
+      <h1 id="corner">教えて！<br>みんなのライフハック</h1>
       <p class="lead">あなたの工夫を、アンケートで回答してください。<wbr>届いたアイデアはFUJI Wellness Channel内で紹介します。</p>
     </section>
 
@@ -217,7 +217,7 @@
         </div>
 
         <label class="agree" for="ok">
-          <input type="checkbox" id="ok" name="ok">
+          <input type="checkbox" id="ok" name="ok" checked>
           <span><b>回答がFUJI Wellness Channel内で紹介されることに同意します</b><br>内容を一部編集して紹介する場合があります。すべての回答が紹介されるわけではありません。</span>
         </label>
         <span class="err" id="errOk">紹介への同意にチェックしてください。</span>
@@ -259,12 +259,14 @@
    LIVE_HOST   : このホストで開いたときだけ送信・計測する（プレビューで本番データを汚さないため）
    ========================================================= */
 const CONFIG = {
+  /* コーナー名（行ごとに配列） */
+  CORNER     : ["教えて！", "みんなのライフハック"],
   TOPIC_ID   : "2026-12-futon",
   TOPIC_TEXT : "寒い朝、布団から出るコツは？",
   STAMP      : "12月",
   /* 回答欄の上に出す例（お題ごとに差し替え） */
   EXAMPLES   : [
-    "起きる前に暖房をタイマーでON。枕元に置いた貼るカイロを貼ってから布団を出ます。",
+    "枕元に厚手の靴下を置いておき、布団の中で履いてから出ます。足元が冷えないだけで出やすいです。",
     "寝る前にホットアイマスクで目元を温めて早めに就寝。朝のだるさが減りました。"
   ],
   MAX_CHARS  : 200,
@@ -335,6 +337,11 @@ if (LIVE){
 const $ = s => document.querySelector(s);
 const form = $("#form"), hack = $("#hack"), count = $("#count"), ok = $("#ok"), send = $("#send");
 $("#stampMonth").textContent = CONFIG.STAMP;
+(() => {
+  const h = $("#corner"); h.textContent = "";
+  CONFIG.CORNER.forEach((line, i) => { if (i) h.append(document.createElement("br")); h.append(line); });
+  document.title = CONFIG.CORNER.join("");
+})();
 CONFIG.EXAMPLES.forEach(t => { const p = document.createElement("p"); p.textContent = t; $("#examples").append(p); });
 
 /* 1人1回まで：この端末で回答済みなら完了画面を出す（ログインがないため端末単位） */
