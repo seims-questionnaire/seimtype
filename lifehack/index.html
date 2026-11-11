@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="robots" content="noindex">
-<title>教えて！みんなのライフハック</title>
+<title>みんなの裏技シェア！</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
@@ -183,7 +183,7 @@
 
     <section class="title">
       <small>新コーナー</small>
-      <h1 id="corner">教えて！<br>みんなのライフハック</h1>
+      <h1 id="corner">みんなの裏技シェア！</h1>
       <p class="lead">あなたの工夫を、アンケートで回答してください。<wbr>届いたアイデアはFUJI Wellness Channel内で紹介します。</p>
     </section>
 
@@ -195,16 +195,16 @@
 
       <div class="topic">
         <small>お題</small>
-        <p id="topicText">寒い朝、布団から出るコツは？</p>
+        <p id="topicText">お正月太り・速攻リセット術</p>
         <!-- お題イラスト：お題ごとに差し替え -->
         <figure class="slot topic-art">
-          <img id="topicImg" src="topic-2026-12.webp" width="2000" height="667" alt="布団にくるまったまま、腕だけ伸ばして目覚まし時計を止めているイラスト">
+          <img id="topicImg" src="topic-2026-12-oshogatsu.webp" width="2000" height="667" alt="お正月明けに体重計に乗って驚いている人と、おせち・スニーカー・乳酸菌飲料のイラスト">
         </figure>
       </div>
 
       <form id="form" novalidate>
         <div class="f hackbox">
-          <label class="lbl" for="hack">あなたのライフハック <span class="req">必須</span></label>
+          <label class="lbl" for="hack">あなたの裏技 <span class="req">必須</span></label>
           <div class="examples" id="examples">
             <small>回答例</small>
           </div>
@@ -260,14 +260,14 @@
    ========================================================= */
 const CONFIG = {
   /* コーナー名（行ごとに配列） */
-  CORNER     : ["教えて！", "みんなのライフハック"],
-  TOPIC_ID   : "2026-12-futon",
-  TOPIC_TEXT : "寒い朝、布団から出るコツは？",
+  CORNER     : ["みんなの裏技シェア！"],
+  TOPIC_ID   : "2026-12-oshogatsu",
+  TOPIC_TEXT : "お正月太り・速攻リセット術",
   STAMP      : "12月",
   /* 回答欄の上に出す例（お題ごとに差し替え） */
   EXAMPLES   : [
-    "枕元に厚手の靴下を置いておき、布団の中で履いてから出ます。足元が冷えないだけで出やすいです。",
-    "寝る前にホットアイマスクで目元を温めて早めに就寝。朝のだるさが減りました。"
+    "乳酸菌飲料や整腸剤で腸活しながら、ひと駅分歩いてリセット。",
+    "着圧タイツをはいて、エスカレーターをやめて階段を使っています。"
   ],
   MAX_CHARS  : 200,
   FORM_ACTION: "https://docs.google.com/forms/d/e/1FAIpQLSfOpVp25VolpKWy9acHwv3Vrtgkkd8hIU8hUXi3FHwoEwfLWA/formResponse",
