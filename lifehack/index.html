@@ -64,11 +64,7 @@
     border-radius:6px;padding:22px 18px;
     box-shadow:0 14px 34px -16px rgba(0,0,0,.6);
   }
-  .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-  .zip{display:flex;align-items:center;gap:4px;padding-top:4px;color:var(--teal-ink);opacity:.85;font-size:15px;line-height:1}
-  .zip i{width:13px;height:18px;border:1.2px solid var(--teal-ink);border-radius:2px}
-  .zip b{font-weight:700;margin-right:2px}
-  .zip span{margin:0 1px}
+  .card-top{display:flex;justify-content:flex-end;align-items:flex-start;gap:12px}
   .stamp{
     flex:none;width:84px;padding:8px 6px 7px;text-align:center;color:var(--gold-ink);
     background:#FCF1D8;border:1.5px dashed rgba(242,193,90,.9);
@@ -130,6 +126,7 @@
   .agree{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--ink-soft);cursor:pointer;line-height:1.7}
   .agree input{width:20px;height:20px;margin-top:2px;flex:none;accent-color:var(--teal-ink)}
   .agree b{color:var(--ink)}
+  .agree-text{display:grid;gap:1em}
 
   .err{display:none;font-size:13px;color:var(--err)}
   .err.show{display:block}
@@ -189,16 +186,15 @@
 
     <section class="card" aria-label="回答フォーム">
       <div class="card-top" aria-hidden="true">
-        <div class="zip"><b>〒</b><i></i><i></i><i></i><span>-</span><i></i><i></i><i></i><i></i></div>
         <div class="stamp"><b id="stampMonth">12月</b><span>今回のお題</span></div>
       </div>
 
       <div class="topic">
         <small>お題</small>
-        <p id="topicText">お正月太り・速攻リセット術</p>
+        <p id="topicText">食べ過ぎる時期の速攻リセット術</p>
         <!-- お題イラスト：お題ごとに差し替え -->
         <figure class="slot topic-art">
-          <img id="topicImg" src="topic-2026-12-oshogatsu-v2.webp" width="2000" height="667" alt="お正月明けに体重計に乗って驚いている人と、おせち・スニーカー・乳酸菌飲料のイラスト">
+          <img id="topicImg" src="topic-2026-12-oshogatsu-v2.webp" width="2000" height="667" alt="体重計に乗って驚いている人と、おせち・スニーカー・乳酸菌飲料のイラスト">
         </figure>
       </div>
 
@@ -218,7 +214,7 @@
 
         <label class="agree" for="ok">
           <input type="checkbox" id="ok" name="ok" checked>
-          <span><b>回答がFUJI Wellness Channel内で紹介されることに同意します</b><br>内容を一部編集して紹介する場合があります。すべての回答が紹介されるわけではありません。</span>
+          <span class="agree-text"><span>お名前や連絡先などの個人情報は取得せず、アプリ会員様の場合はアプリ会員情報と回答を紐づけることはありません。</span><span>内容を一部編集して紹介する場合があります。すべての回答が紹介されるわけではありません。</span></span>
         </label>
         <span class="err" id="errOk">紹介への同意にチェックしてください。</span>
 
@@ -228,7 +224,6 @@
         </div>
 
         <button class="btn" type="submit" id="send">この内容で回答する</button>
-        <p class="foot">お名前や連絡先はいただきません。</p>
       </form>
     </section>
   </main>
@@ -262,7 +257,7 @@ const CONFIG = {
   /* コーナー名（行ごとに配列） */
   CORNER     : ["みんなの裏技シェア！"],
   TOPIC_ID   : "2026-12-oshogatsu",
-  TOPIC_TEXT : "お正月太り・速攻リセット術",
+  TOPIC_TEXT : "食べ過ぎる時期の速攻リセット術",
   STAMP      : "12月",
   /* 回答欄の上に出す例（お題ごとに差し替え） */
   EXAMPLES   : [
@@ -274,9 +269,6 @@ const CONFIG = {
   ENTRY: {
     topic : "entry.278386675",
     hack  : "entry.1817194359",
-    rname : "entry.219942310",
-    age   : "entry.837192669",
-    gender: "entry.1723051774",
     source: "entry.956954832"
   },
   /* PVログ用フォーム（開かれるたびに1件記録 → 回答シートの「PVログ」タブ） */
